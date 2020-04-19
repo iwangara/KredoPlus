@@ -23,7 +23,9 @@
             <div class="row">
 
                 <div  class="col-md-4">
-                    <h2 class="text-center title">BUY AIRTIME</h2>
+                    <h2 class="text-center title">BUY AIRTIME
+                    </h2>
+
                     <h4 class="text-center description">Buy Airtel airtime from Mpesa instantly & at no extra cost.</h4>
                 </div>
 
