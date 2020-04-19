@@ -11,14 +11,14 @@
                                 <i class="material-icons">mobile_screen_share</i>
                             </div>
                             <p class="card-category">Airtime Balance</p>
-                            <h3 class="card-title"><small>Ksh.</small> 49950
+                            <h3 class="card-title"><small>Ksh.</small> {{$balance ?? 'Refresh'}}
 
                             </h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
                                 <i class="material-icons text-danger">refresh</i>
-                                <a href="#pablo">Refresh</a>
+                                <a href="{{route('balance')}}">Refresh</a>
                             </div>
                         </div>
                     </div>
@@ -30,12 +30,12 @@
                                 <i class="material-icons">attach_money</i>
                             </div>
                             <p class="card-category">Revenue</p>
-                            <h3 class="card-title">Ksh. 34,245</h3>
+                            <h3 class="card-title">Ksh. {{$revenue ?? 'reload'}}</h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
                                 <i class="material-icons text-danger">refresh</i>
-                                <a href="#pablo">Refresh</a>
+                                <a href="{{route('home')}}">Refresh</a>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                 <i class="material-icons">check_circle</i>
                             </div>
                             <p class="card-category">Complete</p>
-                            <h3 class="card-title">75</h3>
+                            <h3 class="card-title">{{$complete ?? 'Refresh'}}</h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
@@ -63,7 +63,7 @@
                                 <i class="material-icons">bug_report</i>
                             </div>
                             <p class="card-category">Failed</p>
-                            <h3 class="card-title">245</h3>
+                            <h3 class="card-title">{{$failed ?? 'Refresh'}}</h3>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
@@ -118,7 +118,7 @@
                             <p class="card-category">New Transactions</p>
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="exampl">
                                 <thead class="text-warning">
                                 <th>ID</th>
                                 <th>Mpesa No</th>
@@ -127,34 +127,20 @@
                                 <th>Status</th>
                                 </thead>
                                 <tbody>
+                                @foreach($transactions as $index=>$transact)
                                 <tr>
-                                    <td>1</td>
-                                    <td>254729790289</td>
-                                    <td>254729790289</td>
-                                    <td>5</td>
-                                    <td>1</td>
+                                    <td>{{ $index+1 }}.</td>
+                                    <td>{{$transact->no_saf}}</td>
+                                    <td>{{$transact->no_saf}}</td>
+                                    <td>{{$transact->amount}}</td>
+                                    <td>@if($transact->status==1)
+                                            <span class="badge badge-pill badge-success">Successful</span>
+                                        @else
+                                            <span class="badge badge-pill badge-danger">Failed</span>
+
+                                        @endif</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>254729790289</td>
-                                    <td>254729790289</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>254729790289</td>
-                                    <td>254729790289</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>254729790289</td>
-                                    <td>254729790289</td>
-                                    <td>5</td>
-                                    <td>1</td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -165,11 +151,23 @@
     </div>
 @endsection
 
+
+
 @push('js')
     <script>
         $(document).ready(function() {
             // Javascript method's body can be found in assets/js/demos.js
             md.initDashboardPageCharts();
+
+            $('#exampl').DataTable( {
+                "stateSave": true,
+                "ordering": true,
+                "info":true,
+                "paging":   true,
+                "pagingType": "full_numbers"
+            } );
         });
     </script>
+
+
 @endpush
